@@ -1,1 +1,6 @@
 .idea
+.flatpak-builder
+
+# Build directories
+build
+build-dir
