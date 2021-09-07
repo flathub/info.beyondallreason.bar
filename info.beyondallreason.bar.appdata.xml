@@ -98,7 +98,7 @@
         </screenshot>
     </screenshots>
     <releases>
-        <release date="2021-09-07">
+        <release version="1.1172.0.1" date="2021-09-07">
             <description>
                 <p>New map: Flats and Forests</p>
                 <p>Bugfixes</p>
