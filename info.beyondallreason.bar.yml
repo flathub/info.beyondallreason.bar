@@ -61,7 +61,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/gajop/spring-launcher
-        commit: f3f789d49ea3168ea43f6814b8e3d67400776cbb
+        commit: bd63191960e1ae7c53da7f13265cf5e735d75257
       - type: patch
         path: patch/remove-launcher-self-update.patch
       - type: file
