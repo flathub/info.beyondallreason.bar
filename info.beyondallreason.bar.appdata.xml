@@ -98,6 +98,12 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="1.1251.0.1" date="2021-11-05">
+            <description>
+                <p>Update engine to 105.1.1-571-gf9cbe56 bar</p>
+                <p>New servers, SSL certificate fix for Linux, engine improvements</p>
+            </description>
+        </release>
         <release version="1.1241.0.1" date="2021-10-30">
             <description>
                 <p>Update engine to 105.1.1-549-g0d9f349 bar</p>
