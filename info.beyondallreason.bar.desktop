@@ -7,3 +7,4 @@ Icon=info.beyondallreason.bar
 Terminal=false
 Categories=Game;
 Keywords=bar;
+PrefersNonDefaultGPU=true
