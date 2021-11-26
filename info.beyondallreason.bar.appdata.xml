@@ -98,6 +98,11 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="1.1272.0.1" date="2021-11-26">
+            <description>
+                <p>Roll back engine to 582-gddec320 due to desync issues</p>
+            </description>
+        </release>
         <release version="1.1271.0.1" date="2021-11-26">
             <description>
                 <p>Update engine to 653-g954b191</p>
