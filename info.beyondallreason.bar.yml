@@ -34,8 +34,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
-        commit: 05fc8f5156193113314eb9665e74db2c1a20dbee
-        tag: v1.1276.0
+        commit: 35c00858364deca2bba80e1ba81462b369d5bbe7
+        tag: v1.1286.0
   - name: spring-launcher
     buildsystem: simple
     build-commands:
@@ -61,7 +61,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/gajop/spring-launcher
-        commit: bd63191960e1ae7c53da7f13265cf5e735d75257
+        commit: 9b5a204e794a42ad010a4b5b592fb4dbaf211de5
       - type: patch
         path: patch/remove-launcher-self-update.patch
       - type: file
