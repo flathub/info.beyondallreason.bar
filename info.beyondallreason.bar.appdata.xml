@@ -98,6 +98,11 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="1.1292.0.1" date="2021-12-15">
+            <description>
+                <p>Revert engine update to 689-g02ad92f due to issues with UI/fonts and game crashing after a match</p>
+            </description>
+        </release>
         <release version="1.1291.0.1" date="2021-12-15">
             <description>
                 <p>Update engine 689-g02ad92f</p>
