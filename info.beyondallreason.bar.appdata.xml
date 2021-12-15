@@ -98,6 +98,11 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="1.1291.0.1" date="2021-12-15">
+            <description>
+                <p>Update engine 689-g02ad92f</p>
+            </description>
+        </release>
         <release version="1.1286.0.1" date="2021-12-08">
             <description>
                 <p>Fixes launcher logs upload to SpringRTS</p>
