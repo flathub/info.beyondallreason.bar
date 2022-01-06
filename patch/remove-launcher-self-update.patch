@@ -1,20 +1,20 @@
-From ed6e6f982b2a5a24190e2b5c821863a1d98b9a20 Mon Sep 17 00:00:00 2001
+From d3052a6a60f5e278b887fd59422e4cbc9c775841 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tobias=20Sch=C3=B6nberg?= <tobias47n9e@gmail.com>
-Date: Sun, 29 Aug 2021 12:55:15 +0200
+Date: Thu, 6 Jan 2022 23:16:38 +0100
 Subject: [PATCH] Remove launcher self-update
 
 ---
- src/launcher_wizard.js | 16 ----------------
- 1 file changed, 16 deletions(-)
+ src/launcher_wizard.js | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
 diff --git a/src/launcher_wizard.js b/src/launcher_wizard.js
-index 144481a..a16e25c 100644
+index c8d67d9..b8597c6 100644
 --- a/src/launcher_wizard.js
 +++ b/src/launcher_wizard.js
-@@ -32,22 +32,6 @@ class Wizard extends EventEmitter {
- 	generateSteps() {
- 		var steps = [];
- 		if (!config.no_downloads) {
+@@ -54,23 +54,6 @@ class Wizard extends EventEmitter {
+ 				});
+ 			}
+ 
 -			steps.push({
 -				name: 'launcher_update',
 -				action: () => {
@@ -31,9 +31,10 @@ index 144481a..a16e25c 100644
 -				}
 -			});
 -
+-
  			config.downloads.engines.forEach((engine) => {
  				steps.push({
  					name: 'engine',
 -- 
-2.30.2
+2.32.0
 
