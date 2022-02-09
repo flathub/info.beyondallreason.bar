@@ -34,8 +34,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
-        commit: 63971358560bacd636a5bac7e42f61c107372ea0
-        tag: v1.1351.0
+        commit: f7d819dff512d53c0d4cbc8d26bbd55c114cbca0
+        tag: v1.1392.0
   - name: spring-launcher
     buildsystem: simple
     build-commands:
