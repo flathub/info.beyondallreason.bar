@@ -98,6 +98,11 @@
         </screenshot>
     </screenshots>
     <releases>
+	<release version="1.1487.0.0" date="2022-05-12">
+            <description>
+                <p>Update Engine to 941-g941148f</p>
+            </description>
+        </release>
 	<release version="1.1459.0.1" date="2022-04-14">
             <description>
                 <p>Update engine to 902-g34d2eb7</p>
