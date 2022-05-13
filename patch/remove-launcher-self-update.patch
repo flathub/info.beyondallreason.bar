@@ -1,6 +1,6 @@
-From d3052a6a60f5e278b887fd59422e4cbc9c775841 Mon Sep 17 00:00:00 2001
+From 3c8803e16cfb592a1256d3b20a2efc0017df73d2 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Tobias=20Sch=C3=B6nberg?= <tobias47n9e@gmail.com>
-Date: Thu, 6 Jan 2022 23:16:38 +0100
+Date: Thu, 12 May 2022 21:11:35 +0200
 Subject: [PATCH] Remove launcher self-update
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH] Remove launcher self-update
  1 file changed, 17 deletions(-)
 
 diff --git a/src/launcher_wizard.js b/src/launcher_wizard.js
-index c8d67d9..b8597c6 100644
+index 0035d90..b8597c6 100644
 --- a/src/launcher_wizard.js
 +++ b/src/launcher_wizard.js
 @@ -54,23 +54,6 @@ class Wizard extends EventEmitter {
@@ -18,7 +18,7 @@ index c8d67d9..b8597c6 100644
 -			steps.push({
 -				name: 'launcher_update',
 -				action: () => {
--					const isDev = require('electron-is-dev');
+-					const isDev = !require('electron').app.isPackaged;
 -					log.info('Checking for launcher update');
 -					if (!isDev) {
 -						updater.checkForUpdates();
@@ -36,5 +36,5 @@ index c8d67d9..b8597c6 100644
  				steps.push({
  					name: 'engine',
 -- 
-2.32.0
+2.36.1
 

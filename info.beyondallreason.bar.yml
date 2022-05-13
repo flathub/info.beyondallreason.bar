@@ -55,8 +55,8 @@ modules:
         tag: v1.1487.0
         dest: BYAR-Chobby
       - type: git
-        url: https://github.com/gajop/spring-launcher
-        commit: bfa2f59297614f240b1271220a390be5fba00a7c
+        url: https://github.com/beyond-all-reason/spring-launcher
+        commit: 37aca597a92ed9a9767836f107d780ca5aa2ba8d
         dest: launcher
       - type: patch
         path: patch/remove-launcher-self-update.patch
