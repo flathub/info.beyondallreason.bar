@@ -6,13 +6,13 @@ base-version: "21.08"
 sdk: org.freedesktop.Sdk
 command: launcher-args.sh
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node14
+  - org.freedesktop.Sdk.Extension.node16
 build-options:
-  append_path: "/usr/lib/sdk/node14/bin"
+  append_path: "/usr/lib/sdk/node16/bin"
   cflags: -O2 -g
   cxxflags: -O2 -g
   env:
-    npm_config_nodedir: /usr/lib/sdk/node14
+    npm_config_nodedir: /usr/lib/sdk/node16
     npm_config_offline: 'true'
     NPM_CONFIG_LOGLEVEL: info
     XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
@@ -23,7 +23,7 @@ finish-args:
   - --socket=pulseaudio
   - --device=dri
   - --share=network
-  - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node14/bin
+  - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node16/bin
 modules:
   - name: spring-launcher
     buildsystem: simple
@@ -56,7 +56,7 @@ modules:
         dest: BYAR-Chobby
       - type: git
         url: https://github.com/beyond-all-reason/spring-launcher
-        commit: 37aca597a92ed9a9767836f107d780ca5aa2ba8d
+        commit: 887937649014318d0da9e6e4b67f831366ce392b
         dest: launcher
       - type: patch
         path: patch/remove-launcher-self-update.patch
@@ -76,5 +76,5 @@ modules:
       env:
         XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
         npm_config_cache: /run/build/spring-launcher/flatpak-node/npm-cache
-        npm_config_nodedir: /usr/lib/sdk/node14
+        npm_config_nodedir: /usr/lib/sdk/node16
         npm_config_offline: 'true'
