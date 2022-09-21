@@ -1,18 +1,18 @@
 app-id: info.beyondallreason.bar
 runtime: org.freedesktop.Platform
-runtime-version: "21.08"
+runtime-version: "22.08"
 base: org.electronjs.Electron2.BaseApp
-base-version: "21.08"
+base-version: "22.08"
 sdk: org.freedesktop.Sdk
 command: launcher-args.sh
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node14
+  - org.freedesktop.Sdk.Extension.node16
 build-options:
-  append_path: "/usr/lib/sdk/node14/bin"
+  append_path: "/usr/lib/sdk/node16/bin"
   cflags: -O2 -g
   cxxflags: -O2 -g
   env:
-    npm_config_nodedir: /usr/lib/sdk/node14
+    npm_config_nodedir: /usr/lib/sdk/node16
     npm_config_offline: 'true'
     NPM_CONFIG_LOGLEVEL: info
     XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
@@ -23,7 +23,7 @@ finish-args:
   - --socket=pulseaudio
   - --device=dri
   - --share=network
-  - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node14/bin
+  - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node16/bin
 modules:
   - name: spring-launcher
     buildsystem: simple
@@ -51,12 +51,12 @@ modules:
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
-        commit: 0a6b22b743ab2609fa0a7d954839a3ca559177d9
-        tag: v1.1522.0
+        commit: cc7ca17cb4cf1532ad7c3c393b1a54f54f45dd63
+        tag: v1.1704.0
         dest: BYAR-Chobby
       - type: git
         url: https://github.com/beyond-all-reason/spring-launcher
-        commit: 37aca597a92ed9a9767836f107d780ca5aa2ba8d
+        commit: e3fec391121dcfee18a3d5172d1cadf7c4be3a89
         dest: launcher
       - type: patch
         path: patch/remove-launcher-self-update.patch
@@ -76,5 +76,5 @@ modules:
       env:
         XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
         npm_config_cache: /run/build/spring-launcher/flatpak-node/npm-cache
-        npm_config_nodedir: /usr/lib/sdk/node14
+        npm_config_nodedir: /usr/lib/sdk/node16
         npm_config_offline: 'true'
