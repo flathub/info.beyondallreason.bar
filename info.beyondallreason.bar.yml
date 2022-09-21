@@ -51,12 +51,12 @@ modules:
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
-        commit: 0a6b22b743ab2609fa0a7d954839a3ca559177d9
-        tag: v1.1522.0
+        commit: cc7ca17cb4cf1532ad7c3c393b1a54f54f45dd63
+        tag: v1.1704.0
         dest: BYAR-Chobby
       - type: git
         url: https://github.com/beyond-all-reason/spring-launcher
-        commit: 887937649014318d0da9e6e4b67f831366ce392b
+        commit: e3fec391121dcfee18a3d5172d1cadf7c4be3a89
         dest: launcher
       - type: patch
         path: patch/remove-launcher-self-update.patch
