@@ -51,8 +51,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
-        commit: cc7ca17cb4cf1532ad7c3c393b1a54f54f45dd63
-        tag: v1.1704.0
+        commit: 6abdbd8cf7556285b772af06c3822b35a6e397f9
+        tag: v1.1713.0
         dest: BYAR-Chobby
       - type: git
         url: https://github.com/beyond-all-reason/spring-launcher
