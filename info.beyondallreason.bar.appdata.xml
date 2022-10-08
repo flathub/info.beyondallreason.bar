@@ -98,6 +98,11 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="1.1734.0.0" date="2022-10-08">
+            <description>
+                <p>Update launcher to new version.</p>
+            </description>
+        </release>
         <release version="1.1713.0.0" date="2022-09-23">
             <description>
                 <p>Update engine to 105.1.1-1214-gcf8d087</p>
