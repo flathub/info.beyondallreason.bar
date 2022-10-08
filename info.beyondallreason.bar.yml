@@ -17,6 +17,7 @@ build-options:
     NPM_CONFIG_LOGLEVEL: info
     XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
     npm_config_cache: /run/build/spring-launcher/flatpak-node/npm-cache
+    GITHUB_REPOSITORY: beyond-all-reason/BYAR-Chobby
 finish-args:
   - --share=ipc
   - --socket=x11
@@ -28,32 +29,54 @@ modules:
   - name: spring-launcher
     buildsystem: simple
     build-commands:
-      # Use `--ignore-scripts`, so electron does not make a postinstall request
-      - npm ci --offline --ignore-scripts --cache=/run/build/spring-launcher/flatpak-node/npm-cache/
-      - cp -p ../BYAR-Chobby/dist_cfg/config.json ./src
-      - cp -p ../BYAR-Chobby/dist_cfg/config-backup.json ./src
-      - cp -p ../BYAR-Chobby/dist_cfg/springsettings.json ./src
-      - cp -Rp ../BYAR-Chobby/dist_cfg/renderer/* ./src/renderer
-      - cp -Rp ../BYAR-Chobby/dist_cfg/files ./files
-      - cp -Rp ../BYAR-Chobby/dist_cfg/build ./build
-      - jq '.build.linux.target="dir"' <<<$(<package.json) > package.json
-      - cat package.json
+      # First steps from https://github.com/beyond-all-reason/BYAR-Chobby/blob/master/.github/workflows/launcher.yml
+      # GitHub Action step: Patch launcher with dist_cfg
       - |
-        . ../flatpak-node/electron-builder-arch-args.sh
+        cp -r BYAR-Chobby/dist_cfg/* launcher/src/
+        for dir in bin files build; do
+          mkdir -p launcher/$dir
+          if [ -d launcher/src/$dir/ ]; then
+            mv launcher/src/$dir/* launcher/$dir/
+            rm -rf launcher/src/$dir
+          fi
+        done
+      # GitHub Action step: Make package.json
+      - |
+        cd BYAR-Chobby
+        export PACKAGE_VERSION=1.$(git rev-list --count HEAD).0
+        echo "Making build for version: $PACKAGE_VERSION"
+        node build/make_package_json.js ../launcher/package.json dist_cfg/config.json $GITHUB_REPOSITORY $PACKAGE_VERSION
+
+      # For flatpak we don't want to build AppImage, but unpacked
+      - |
+        cd launcher
+        jq '.build.linux.target="dir"' <<<$(<package.json) > package.json
+        cat package.json
+      # Install all packages, use `--ignore-scripts`, so electron does not make a postinstall request
+      - |
+        cd launcher
+        npm ci --offline --ignore-scripts --cache=/run/build/spring-launcher/flatpak-node/npm-cache/
+      # Build electron app
+      - |
+        . flatpak-node/electron-builder-arch-args.sh
+        cd launcher
         node_modules/.bin/electron-builder -- $ELECTRON_BUILDER_ARCH_ARGS --linux --dir --project /run/build/spring-launcher/launcher
-      - cp -a dist/linux*unpacked /app/main
-      - install -Dm755 -t /app/bin/ ../launcher-args.sh
-      - install -Dm755 -t /app/bin/ ../run.sh
-      - install -Dm644 ../BYAR-Chobby/dist_cfg/build/icon.png /app/share/icons/hicolor/128x128/apps/info.beyondallreason.bar.png
-      - install -Dm644 ../info.beyondallreason.bar.desktop /app/share/applications/info.beyondallreason.bar.desktop
-      - install -Dm644 ../info.beyondallreason.bar.appdata.xml /app/share/metainfo/info.beyondallreason.bar.appdata.xml
-    subdir: launcher
+      # Install application in destination folder
+      - |
+        cp -a launcher/dist/linux*unpacked /app/main
+        install -Dm755 -t /app/bin/ launcher-args.sh
+        install -Dm755 -t /app/bin/ run.sh
+        install -Dm644 BYAR-Chobby/dist_cfg/build/icon.png /app/share/icons/hicolor/128x128/apps/info.beyondallreason.bar.png
+        install -Dm644 info.beyondallreason.bar.desktop /app/share/applications/info.beyondallreason.bar.desktop
+        install -Dm644 info.beyondallreason.bar.appdata.xml /app/share/metainfo/info.beyondallreason.bar.appdata.xml
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
         commit: 6abdbd8cf7556285b772af06c3822b35a6e397f9
         tag: v1.1713.0
         dest: BYAR-Chobby
+        # We do full clone to make sure PACKAGE_VERSION is computed correctly.
+        disable-shallow-clone: true
       - type: git
         url: https://github.com/beyond-all-reason/spring-launcher
         commit: e3fec391121dcfee18a3d5172d1cadf7c4be3a89
@@ -71,7 +94,7 @@ modules:
       - type: script
         dest-filename: run.sh
         commands:
-          - zypak-wrapper.sh /app/main/spring-launcher "$@"
+          - zypak-wrapper.sh /app/main/beyond-all-reason "$@"
     build-options:
       env:
         XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
