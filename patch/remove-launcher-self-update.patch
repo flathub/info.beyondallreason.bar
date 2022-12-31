@@ -1,39 +1,34 @@
-From 3735f9c12ea205c8cafdcefe5cc213b4916779f3 Mon Sep 17 00:00:00 2001
+From e27e3eb05d4c5eb522b554d76d9cd09338cfdf87 Mon Sep 17 00:00:00 2001
 From: Marek Rusinowski <marekrusinowski@gmail.com>
-Date: Sat, 8 Oct 2022 21:00:46 +0200
+Date: Sat, 31 Dec 2022 13:26:57 +0100
 Subject: [PATCH] Remove launcher self-update
 
 ---
- src/launcher_wizard.js | 16 ----------------
- 1 file changed, 16 deletions(-)
+ src/launcher_wizard.js | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/launcher_wizard.js b/src/launcher_wizard.js
-index 874880d..656a539 100644
+index 6f206b7..31edbe9 100644
 --- a/src/launcher_wizard.js
 +++ b/src/launcher_wizard.js
-@@ -54,22 +54,6 @@ class Wizard extends EventEmitter {
- 				});
- 			}
+@@ -139,7 +139,7 @@ class Wizard extends EventEmitter {
  
--			steps.push({
--				name: 'launcher_update',
--				action: () => {
--					const isDev = !require('electron').app.isPackaged;
--					log.info('Checking for launcher update');
--					if (!isDev) {
--						updater.checkForUpdates();
--					} else {
--						console.log('Development version: no self-update required');
--						setTimeout(() => {
--							this.nextStep();
--						}, 300);
--					}
--				}
--			});
--
- 			config.downloads.resources.forEach((resource) => {
- 				steps.push({
- 					name: 'resource',
+ 			// Queue asynchronous check for launcher update.
+ 			const isDev = !require('electron').app.isPackaged;
+-			if (!isDev) {
++			if (false && !isDev) {
+ 				const updateCheckPromise = new Promise((resolve, reject) => {
+ 					updater.on('update-available', () => {
+ 						resolve(true);
+@@ -191,7 +191,7 @@ class Wizard extends EventEmitter {
+ 
+ 				updater.checkForUpdates();
+ 			} else {
+-				console.log('Development version: no self-update required');
++				// console.log('Development version: no self-update required');
+ 			}
+ 		}
+ 
 -- 
-2.37.2
+2.39.0
 
