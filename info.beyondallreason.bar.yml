@@ -76,13 +76,13 @@ modules:
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
-        commit: 9585bec173a287ca3b1d3fd3dd78bef7765603f6
+        commit: b69824e16b285b7c91ce6ddbce7edcf80b3726de
         dest: BYAR-Chobby
         # We do full clone to make sure PACKAGE_VERSION is computed correctly.
         disable-shallow-clone: true
       - type: git
         url: https://github.com/beyond-all-reason/spring-launcher
-        commit: 1372cd2ea7818ea0639a963ad2d44ac6af920fd4
+        commit: 439a9b7b7d835691267ad13586d0efc763d39b60
         dest: launcher
       - type: patch
         path: patch/remove-launcher-self-update.patch
