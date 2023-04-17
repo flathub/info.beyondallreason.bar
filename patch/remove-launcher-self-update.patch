@@ -1,6 +1,6 @@
-From e27e3eb05d4c5eb522b554d76d9cd09338cfdf87 Mon Sep 17 00:00:00 2001
+From 0cfd58e0656be7ed32f4274b65dd184ee358a865 Mon Sep 17 00:00:00 2001
 From: Marek Rusinowski <marekrusinowski@gmail.com>
-Date: Sat, 31 Dec 2022 13:26:57 +0100
+Date: Mon, 17 Apr 2023 13:17:00 +0200
 Subject: [PATCH] Remove launcher self-update
 
 ---
@@ -8,21 +8,21 @@ Subject: [PATCH] Remove launcher self-update
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/launcher_wizard.js b/src/launcher_wizard.js
-index 6f206b7..31edbe9 100644
+index 82c418f..750042f 100644
 --- a/src/launcher_wizard.js
 +++ b/src/launcher_wizard.js
-@@ -139,7 +139,7 @@ class Wizard extends EventEmitter {
+@@ -149,7 +149,7 @@ class Wizard extends EventEmitter {
  
  			// Queue asynchronous check for launcher update.
  			const isDev = !require('electron').app.isPackaged;
 -			if (!isDev) {
 +			if (false && !isDev) {
- 				const updateCheckPromise = new Promise((resolve, reject) => {
- 					updater.on('update-available', () => {
- 						resolve(true);
-@@ -191,7 +191,7 @@ class Wizard extends EventEmitter {
- 
- 				updater.checkForUpdates();
+ 				const asyncLauncherUpdateCheck = {
+ 					promise: null,
+ 					action: () => {
+@@ -219,7 +219,7 @@ class Wizard extends EventEmitter {
+ 					}
+ 				});
  			} else {
 -				console.log('Development version: no self-update required');
 +				// console.log('Development version: no self-update required');
@@ -30,5 +30,5 @@ index 6f206b7..31edbe9 100644
  		}
  
 -- 
-2.39.0
+2.40.0
 
