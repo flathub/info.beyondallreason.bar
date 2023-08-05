@@ -6,13 +6,13 @@ base-version: "22.08"
 sdk: org.freedesktop.Sdk
 command: launcher-args.sh
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node16
+  - org.freedesktop.Sdk.Extension.node18
 build-options:
-  append_path: "/usr/lib/sdk/node16/bin"
+  append_path: "/usr/lib/sdk/node18/bin"
   cflags: -O2 -g
   cxxflags: -O2 -g
   env:
-    npm_config_nodedir: /usr/lib/sdk/node16
+    npm_config_nodedir: /usr/lib/sdk/node18
     npm_config_offline: 'true'
     NPM_CONFIG_LOGLEVEL: info
     XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
@@ -24,7 +24,7 @@ finish-args:
   - --socket=pulseaudio
   - --device=dri
   - --share=network
-  - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node16/bin
+  - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node18/bin
 modules:
   - name: spring-launcher
     buildsystem: simple
@@ -76,16 +76,13 @@ modules:
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
-        commit: bf4882903c5c4709cd6dac9da98c2210da2804a4
+        commit: 595ed511c2910c7b1f2d01c2a0a590879b34792c
         dest: BYAR-Chobby
         # We do full clone to make sure PACKAGE_VERSION is computed correctly.
         disable-shallow-clone: true
       - type: git
         url: https://github.com/beyond-all-reason/spring-launcher
-        commit: 3ead0017ae711da9c0e9c6194aeecc12c43d2bcb
-        dest: launcher
-      - type: patch
-        path: patch/remove-launcher-self-update.patch
+        commit: 2c6e0a63d317b5fc5f92ee39742e1f8a55c41976
         dest: launcher
       - type: file
         path: info.beyondallreason.bar.desktop
@@ -102,5 +99,5 @@ modules:
       env:
         XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
         npm_config_cache: /run/build/spring-launcher/flatpak-node/npm-cache
-        npm_config_nodedir: /usr/lib/sdk/node16
+        npm_config_nodedir: /usr/lib/sdk/node18
         npm_config_offline: 'true'
