@@ -1,1 +1,1 @@
-run.sh -w $XDG_DATA_HOME "$@"
+run.sh --disable-launcher-update -w $XDG_DATA_HOME "$@"
