@@ -1,8 +1,8 @@
 app-id: info.beyondallreason.bar
 runtime: org.freedesktop.Platform
-runtime-version: "22.08"
+runtime-version: "23.08"
 base: org.electronjs.Electron2.BaseApp
-base-version: "22.08"
+base-version: "23.08"
 sdk: org.freedesktop.Sdk
 command: launcher-args.sh
 sdk-extensions:
@@ -72,7 +72,7 @@ modules:
       # Copy addr2line to bin so that engine can execute it to generate stacktrace
       - |
         cp /usr/bin/addr2line /app/bin
-        cp /lib/x86_64-linux-gnu/libbfd-2.38.so /app/lib
+        cp /lib/x86_64-linux-gnu/libbfd-2.41.so /app/lib
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
