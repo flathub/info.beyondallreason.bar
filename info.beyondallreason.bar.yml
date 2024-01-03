@@ -73,6 +73,7 @@ modules:
       - |
         cp /usr/bin/addr2line /app/bin
         cp /lib/x86_64-linux-gnu/libbfd-2.41.so /app/lib
+        cp /usr/lib/x86_64-linux-gnu/libsframe.so.1 /app/lib
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
