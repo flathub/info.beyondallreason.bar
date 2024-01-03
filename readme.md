@@ -9,11 +9,15 @@ https://flathub.org/apps/details/info.beyondallreason.bar
 ## Updating generated-sources.json
 
 If there were changes in the NPM modules in the **spring-launcher** repository (package.json / package-lock.json files), Flatpak will require the updated **generated-sources.json** file to bundle the correct modules in the build.
-To regenerate it, clone https://github.com/flatpak/flatpak-builder-tools/ locally and run the following command:
+To regenerate it, clone https://github.com/flatpak/flatpak-builder-tools/ locally and follow the [readme](https://github.com/flatpak/flatpak-builder-tools/tree/master/node#readme)
+
+Then run:
+
 ```
-python3 ./node/flatpak-node-generator.py npm --xdg-layout /path/to/spring-launcher/package-lock.json
+flatpak-node-generator npm package-lock.json
 ```
-Then, copy the resulting generated-sources.json file to replace the one in the Flatpak build repository.
+
+in the spring-launcher repo root, at the correct commmit, and copy the resulting generated-sources.json file to replace the one in the Flatpak build repository.
 
 Read more about bundling NPM modules here: https://docs.flatpak.org/en/latest/electron.html#bundling-npm-packages
 
