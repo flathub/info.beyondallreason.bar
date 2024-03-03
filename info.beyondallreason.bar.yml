@@ -99,7 +99,7 @@ modules:
         install -Dm755 -t /app/bin/ run.sh
         install -Dm644 /app/chobby/dist_cfg/build/icon.png /app/share/icons/hicolor/128x128/apps/info.beyondallreason.bar.png
         install -Dm644 info.beyondallreason.bar.desktop /app/share/applications/info.beyondallreason.bar.desktop
-        install -Dm644 info.beyondallreason.bar.appdata.xml /app/share/metainfo/info.beyondallreason.bar.appdata.xml
+        install -Dm644 info.beyondallreason.bar.metainfo.xml /app/share/metainfo/info.beyondallreason.bar.metainfo.xml
       # Copy addr2line to bin so that engine can execute it to generate stacktrace
       - |
         cp /usr/bin/addr2line /app/bin
@@ -109,6 +109,6 @@ modules:
       - type: file
         path: info.beyondallreason.bar.desktop
       - type: file
-        path: info.beyondallreason.bar.appdata.xml
+        path: info.beyondallreason.bar.metainfo.xml
       - type: file
         path: run.sh
