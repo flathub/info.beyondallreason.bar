@@ -4,15 +4,15 @@ runtime-version: "23.08"
 base: org.electronjs.Electron2.BaseApp
 base-version: "23.08"
 sdk: org.freedesktop.Sdk
-command: launcher-args.sh
+command: run.sh
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node18
+  - org.freedesktop.Sdk.Extension.node20
 build-options:
-  append_path: "/usr/lib/sdk/node18/bin"
+  append_path: "/usr/lib/sdk/node20/bin"
   cflags: -O2 -g
   cxxflags: -O2 -g
   env:
-    npm_config_nodedir: /usr/lib/sdk/node18
+    npm_config_nodedir: /usr/lib/sdk/node20
     npm_config_offline: 'true'
     NPM_CONFIG_LOGLEVEL: info
     XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
@@ -24,81 +24,91 @@ finish-args:
   - --socket=pulseaudio
   - --device=dri
   - --share=network
-  - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node18/bin
+  - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node20/bin
+  - --filesystem=xdg-run/app/com.discordapp.Discord:create
+cleanup:
+  - '/chobby'
 modules:
+  - name: chobby
+    buildsystem: simple
+    build-commands:
+    sources:
+      - type: git
+        url: https://github.com/beyond-all-reason/BYAR-Chobby
+        commit: eece9ffed260ff110ec2cc31fac25c4daf7a9c51
+        # We do full clone to make sure PACKAGE_VERSION is computed correctly.
+        disable-shallow-clone: true
+    build-commands:
+      - |
+        mkdir -p /app/chobby
+        echo "1.$(git rev-list --count HEAD).0" > /app/chobby/PACKAGE_VERSION
+        cp -r dist_cfg /app/chobby
+        cp -r build /app/chobby
   - name: spring-launcher
     buildsystem: simple
     build-commands:
       # First steps from https://github.com/beyond-all-reason/BYAR-Chobby/blob/master/.github/workflows/launcher.yml
       # GitHub Action step: Patch launcher with dist_cfg
       - |
-        cp -r BYAR-Chobby/dist_cfg/* launcher/src/
+        cp -r /app/chobby/dist_cfg/* src/
         for dir in bin files build; do
-          mkdir -p launcher/$dir
-          if [ -d launcher/src/$dir/ ]; then
-            mv launcher/src/$dir/* launcher/$dir/
-            rm -rf launcher/src/$dir
+          mkdir -p $dir
+          if [ -d src/$dir/ ]; then
+            mv src/$dir/* $dir/
+            rm -rf src/$dir
           fi
         done
       # GitHub Action step: Make package.json
       - |
-        cd BYAR-Chobby
-        export PACKAGE_VERSION=1.$(git rev-list --count HEAD).0
+        export PACKAGE_VERSION=$(cat /app/chobby/PACKAGE_VERSION)
         echo "Making build for version: $PACKAGE_VERSION"
-        node build/make_package_json.js ../launcher/package.json dist_cfg/config.json $GITHUB_REPOSITORY $PACKAGE_VERSION
+        node /app/chobby/build/make_package_json.js package.json /app/chobby/dist_cfg/config.json $GITHUB_REPOSITORY $PACKAGE_VERSION
 
       # For flatpak we don't want to build AppImage, but unpacked
       - |
-        cd launcher
         jq '.build.linux.target="dir"' <<<$(<package.json) > package.json
+        jq '.build.files+=["!flatpak-node/**"]' <<<$(<package.json) > package.json
         cat package.json
       # Install all packages, use `--ignore-scripts`, so electron does not make a postinstall request
       - |
-        cd launcher
-        npm ci --offline --ignore-scripts --cache=/run/build/spring-launcher/flatpak-node/npm-cache/
+        npm ci --ignore-scripts
       # Build electron app
       - |
         . flatpak-node/electron-builder-arch-args.sh
-        cd launcher
-        node_modules/.bin/electron-builder -- $ELECTRON_BUILDER_ARCH_ARGS --linux --dir --project /run/build/spring-launcher/launcher
+        node_modules/.bin/electron-builder -- $ELECTRON_BUILDER_ARCH_ARGS --linux --dir
       # Install application in destination folder
       - |
-        cp -a launcher/dist/linux*unpacked /app/main
-        install -Dm755 -t /app/bin/ launcher-args.sh
+        cp -a dist/linux*unpacked /app/main
+    sources:
+      - type: git
+        url: https://github.com/beyond-all-reason/spring-launcher
+        commit: 2c0a6e17b50ab04ea592c53963c571e5ccb071ba
+        # This generated-sources.json from npm generator *really* wants that source is in the top directory
+        # and not in some sub directory, that's why there is a bunch of complexity with moving files around etc
+      - generated-sources.json
+    build-options:
+      env:
+        XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
+        npm_config_cache: /run/build/spring-launcher/flatpak-node/npm-cache
+        npm_config_nodedir: /usr/lib/sdk/node20
+        npm_config_offline: 'true'
+  - name: main
+    buildsystem: simple
+    build-commands:
+      - |
         install -Dm755 -t /app/bin/ run.sh
-        install -Dm644 BYAR-Chobby/dist_cfg/build/icon.png /app/share/icons/hicolor/128x128/apps/info.beyondallreason.bar.png
+        install -Dm644 /app/chobby/dist_cfg/build/icon.png /app/share/icons/hicolor/128x128/apps/info.beyondallreason.bar.png
         install -Dm644 info.beyondallreason.bar.desktop /app/share/applications/info.beyondallreason.bar.desktop
         install -Dm644 info.beyondallreason.bar.appdata.xml /app/share/metainfo/info.beyondallreason.bar.appdata.xml
       # Copy addr2line to bin so that engine can execute it to generate stacktrace
       - |
         cp /usr/bin/addr2line /app/bin
-        cp /lib/x86_64-linux-gnu/libbfd-2.41.so /app/lib
-        cp /usr/lib/x86_64-linux-gnu/libsframe.so.1 /app/lib
+        cp /lib/x86_64-linux-gnu/libbfd* /app/lib
+        cp /usr/lib/x86_64-linux-gnu/libsframe* /app/lib
     sources:
-      - type: git
-        url: https://github.com/beyond-all-reason/BYAR-Chobby
-        commit: bbad0ab7c5ccbc207754449c47c65db4da436009
-        dest: BYAR-Chobby
-        # We do full clone to make sure PACKAGE_VERSION is computed correctly.
-        disable-shallow-clone: true
-      - type: git
-        url: https://github.com/beyond-all-reason/spring-launcher
-        commit: 6792caf2ede73f3f601a0ab7fbb4fb38c96fbb40
-        dest: launcher
       - type: file
         path: info.beyondallreason.bar.desktop
       - type: file
         path: info.beyondallreason.bar.appdata.xml
-      - generated-sources.json
       - type: file
-        path: launcher-args.sh
-      - type: script
-        dest-filename: run.sh
-        commands:
-          - zypak-wrapper.sh /app/main/beyond-all-reason "$@"
-    build-options:
-      env:
-        XDG_CACHE_HOME: /run/build/spring-launcher/flatpak-node/cache
-        npm_config_cache: /run/build/spring-launcher/flatpak-node/npm-cache
-        npm_config_nodedir: /usr/lib/sdk/node18
-        npm_config_offline: 'true'
+        path: run.sh
