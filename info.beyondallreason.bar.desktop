@@ -5,6 +5,6 @@ Comment=The Total Annihilation Inspired RTS you've been waiting for
 Type=Application
 Icon=info.beyondallreason.bar
 Terminal=false
-Categories=Game;
+Categories=Game;StrategyGame;
 Keywords=bar;
 PrefersNonDefaultGPU=true
