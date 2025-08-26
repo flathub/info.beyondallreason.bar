@@ -31,7 +31,6 @@ cleanup:
 modules:
   - name: chobby
     buildsystem: simple
-    build-commands:
     sources:
       - type: git
         url: https://github.com/beyond-all-reason/BYAR-Chobby
