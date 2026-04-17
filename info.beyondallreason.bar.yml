@@ -1,8 +1,8 @@
 app-id: info.beyondallreason.bar
 runtime: org.freedesktop.Platform
-runtime-version: "24.08"
+runtime-version: "25.08"
 base: org.electronjs.Electron2.BaseApp
-base-version: "24.08"
+base-version: "25.08"
 sdk: org.freedesktop.Sdk
 command: run.sh
 sdk-extensions:
@@ -23,6 +23,7 @@ finish-args:
   - --socket=x11
   - --socket=pulseaudio
   - --device=dri
+  - --device=all
   - --share=network
   - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node20/bin
   - --filesystem=xdg-run/app/com.discordapp.Discord:create
