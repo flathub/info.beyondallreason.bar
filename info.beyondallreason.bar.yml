@@ -23,6 +23,7 @@ finish-args:
   - --socket=x11
   - --socket=pulseaudio
   - --device=dri
+  - --device=all
   - --share=network
   - --env=PATH=/usr/bin:/app/bin:/usr/lib/sdk/node20/bin
   - --filesystem=xdg-run/app/com.discordapp.Discord:create
